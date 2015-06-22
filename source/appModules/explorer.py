@@ -1,6 +1,6 @@
 #appModules/explorer.py
 #A part of NonVisual Desktop Access (NVDA)
-#Copyright (C) 2006-2010 NVDA Contributors <http://www.nvda-project.org/>
+#Copyright (C) 2006-2015 NV Access Limited, Joseph Lee
 #This file is covered by the GNU General Public License.
 #See the file COPYING for more details.
 
@@ -14,7 +14,7 @@ import speech
 import eventHandler
 import mouseHandler
 from NVDAObjects.window import Window
-from NVDAObjects.IAccessible import sysListView32, IAccessible
+from NVDAObjects.IAccessible import sysListView32, IAccessible, List
 from NVDAObjects.UIA import UIA
 
 # support for Win8 start screen search suggestions.
@@ -163,6 +163,10 @@ class AppModule(appModuleHandler.AppModule):
 				clsList.insert(0, NotificationArea)
 				return
 
+		# Start button in Windows 8.1 and later should not have been a list in the first place.
+		if windowClass == "Start" and role == controlTypes.ROLE_LIST:
+			clsList.remove(List)
+
 		if isinstance(obj, UIA):
 			uiaClassName = obj.UIAElement.cachedClassName
 			if uiaClassName == "GridTileElement":
@@ -208,6 +212,14 @@ class AppModule(appModuleHandler.AppModule):
 		#Lets hide that
 		if windowClass=="msctls_progress32" and winUser.getClassName(winUser.getAncestor(obj.windowHandle,winUser.GA_PARENT))=="Address Band Root":
 			obj.presentationType=obj.presType_layout
+
+		# #5178: Start button in Windows 8.1 and later should not be a list and reported as selected.
+		if windowClass == "Start" and role == controlTypes.ROLE_LIST:
+			obj.role = controlTypes.ROLE_BUTTON
+			try:
+				obj.states.remove(controlTypes.STATE_SELECTED)
+			except KeyError:
+				pass
 
 	def event_gainFocus(self, obj, nextHandler):
 		if obj.windowClassName == "ToolbarWindow32" and obj.role == controlTypes.ROLE_MENUITEM and obj.parent.role == controlTypes.ROLE_MENUBAR and eventHandler.isPendingEvents("gainFocus"):
