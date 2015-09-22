@@ -293,6 +293,7 @@ class BrowseModeTreeInterceptor(treeInterceptorHandler.TreeInterceptor):
 	__gestures={
 		"kb:NVDA+f7": "elementsList",
 		"kb:enter": "activatePosition",
+		"kb:numpadEnter": "activatePosition",
 		"kb:space": "activatePosition",
 		"kb:NVDA+shift+space":"toggleSingleLetterNav",
 	}

@@ -152,8 +152,10 @@ class EditableText(editableText.EditableText, NVDAObject):
 	def initOverlayClass(self):
 		# #4264: the caret_newLine script can only be bound for processes other than NVDA's process
 		# As Pressing enter on an edit field can cause modal dialogs to appear, yet gesture.send and api.processPendingEvents may call.wx.yield which ends in a freeze. 
+		# #5385: Also make sure numpad enter is taken care of.
 		if self.announceNewLineText and self.processID!=os.getpid():
 			self.bindGesture("kb:enter","caret_newLine")
+			self.bindGesture("kb:numpadEnter","caret_newLine")
 
 class EditableTextWithAutoSelectDetection(EditableText):
 	"""In addition to L{EditableText}, handles reporting of selection changes for objects which notify of them.
