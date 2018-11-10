@@ -362,6 +362,7 @@ def _getSpeechSymbolsForLocale(locale):
 	if locale in _noSymbolLocalesCache:
 		raise LookupError
 	builtin = SpeechSymbols()
+	emojis = SpeechSymbols()
 	if config.conf['speech']['includeCLDR']:
 		# Try to load CLDR data when processing is on.
 		# Load the data before loading other symbols,
@@ -369,6 +370,7 @@ def _getSpeechSymbolsForLocale(locale):
 		try:
 			builtin.load(os.path.join("locale", locale, "cldr.dic"),
 				allowComplexSymbols=False)
+			emojis = builtin
 		except IOError:
 			log.debugWarning("No CLDR data for locale %s" % locale)
 	try:
@@ -385,7 +387,13 @@ def _getSpeechSymbolsForLocale(locale):
 	except IOError:
 		# An empty user SpeechSymbols is okay.
 		pass
-	return builtin, user
+	profileSymbols = SpeechSymbols()
+	try:
+		profileSymbols.load(os.path.join(globalVars.appArgs.configPath, "emojis-%s.dic" % locale),
+			allowComplexSymbols=False)
+	except IOError:
+		pass
+	return builtin, user, profileSymbols, emojis
 
 class SpeechSymbolProcessor(object):
 	"""
@@ -405,9 +413,12 @@ class SpeechSymbolProcessor(object):
 
 		# We need to merge symbol data from several sources.
 		sources = self.sources = []
-		builtin, user = self.localeSymbols.fetchLocaleData(locale,fallback=False)
+		builtin, user, profileSymbols, emojis = self.localeSymbols.fetchLocaleData(locale,fallback=False)
 		self.builtinSources = [builtin]
 		self.userSymbols = user
+		self.profileSymbols = profileSymbols
+		self.emojis = emojis
+		sources.append(profileSymbols)
 		sources.append(user)
 		sources.append(builtin)
 
@@ -549,12 +560,14 @@ class SpeechSymbolProcessor(object):
 		self._level = level
 		return self._regexp.sub(self._regexpRepl, text)
 
-	def updateSymbol(self, newSymbol):
+	def updateSymbol(self, newSymbol, isProfileSymbol=False):
 		"""Update information for a symbol if it has changed.
 		If there is a change, the changed information will be added to the user's symbol data.
 		These changes do not take effect until the symbol processor is reinitialised.
 		@param newSymbol: The symbol to update.
 		@type newSymbol: L{SpeechSymbol}
+		@param isProfileSymbol: Determine if the symbol belongs to a profile.
+		@type isProfileSymbol: bool
 		@return: Whether there was a change.
 		@rtype: bool
 		"""
@@ -566,7 +579,10 @@ class SpeechSymbolProcessor(object):
 		if oldSymbol is newSymbol:
 			return False
 		try:
-			userSymbol = self.userSymbols.symbols[identifier]
+			if isProfileSymbol:
+				userSymbol = self.profileSymbols.symbols[identifier]
+			else:
+				userSymbol = self.userSymbols.symbols[identifier]
 		except KeyError:
 			userSymbol = SpeechSymbol(identifier)
 
@@ -590,8 +606,11 @@ class SpeechSymbolProcessor(object):
 		if not changed:
 			return False
 
-		# Do this in case the symbol wasn't in userSymbols before.
-		self.userSymbols.symbols[identifier] = userSymbol
+		# Do this in case the symbol wasn't in profile or userSymbols before.
+		if isProfileSymbol:
+			self.profileSymbols.symbols[identifier] = userSymbol
+		else:
+			self.userSymbols.symbols[identifier] = userSymbol
 		return True
 
 	def deleteSymbol(self, symbol):
@@ -616,6 +635,16 @@ class SpeechSymbolProcessor(object):
 		"""
 		return any(symbolIdentifier in source.symbols for source in self.builtinSources)
 
+	def isProfileSymbol(self, symbolIdentifier):
+		"""Determine whether a symbol belongs to a profile.
+		@param symbolIdentifier: The identifier of the symbol in question.
+		@type symbolIdentifier: unicode
+		@return: C{True} if the symbol belongs to a profile,
+			C{False} otherwise.
+		@rtype: bool
+		"""
+		return any(symbolIdentifier in source.symbols for source in [self.emojis, self.profileSymbols])
+		
 _localeSpeechSymbolProcessors = LocaleDataMap(SpeechSymbolProcessor)
 
 def processSpeechSymbols(locale, text, level):
@@ -668,3 +697,4 @@ def handlePostConfigProfileSwitch(prevConf=None):
 		clearSpeechSymbols()
 
 config.post_configProfileSwitch.register(handlePostConfigProfileSwitch)
+
