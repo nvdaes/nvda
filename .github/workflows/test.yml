@@ -1,0 +1,14 @@
+name: Test
+
+on: [push]
+
+jobs:
+  buildAndUpload:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Prepare source tree
+      run: scons source
+    - name: Build launcher
+      run: scons launcher
