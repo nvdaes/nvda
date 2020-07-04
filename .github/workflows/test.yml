@@ -8,6 +8,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+    - name: Update submodules
+      run: git submodule update --init
     - name: Prepare source tree
       run: scons source
       shell: cmd
