@@ -9,6 +9,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
     - name: Prepare source tree
-      run: scons source
+      run: dir
+
     - name: Build launcher
       run: scons launcher
