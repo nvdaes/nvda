@@ -38,7 +38,8 @@ class Channel(str, enum.Enum):
 
 
 def _getCurrentApiVersionForURL() -> str:
-	currentVersion = addonAPIVersion.CURRENT
+	# currentVersion = addonAPIVersion.CURRENT
+	currentVersion = (2022, 2, 0)
 	year, major, minor = currentVersion
 	return f"{year}.{major}.{minor}"
 
