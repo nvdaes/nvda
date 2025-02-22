@@ -1,5 +1,5 @@
 $errorCode=0
-$nvdaLauncherFile=".\output\nvda"
+$nvdaLauncherFile="output\nvda"
 if(!$env:release) {
 	$nvdaLauncherFile+="_snapshot"
 }
