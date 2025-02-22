@@ -47,4 +47,4 @@ jobs:
     - name: Install NVDA
       run: |
         cd output
-        powershell.exe appveyor/scripts/installNVDA.ps1
+        powershell.exe ../appveyor/scripts/installNVDA.ps1
