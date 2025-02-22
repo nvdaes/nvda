@@ -45,7 +45,6 @@ jobs:
     - name: Prepare for tests
       run: powershell.exe appveyor/scripts/tests\beforeTests.ps1
     - name: Install NVDA
-    - name: Rename NVDA
       run: |
         cd output
         rename *.exe nvda.exe
