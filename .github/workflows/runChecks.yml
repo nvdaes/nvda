@@ -42,3 +42,5 @@ jobs:
       run: |
         scons source %sconsArgs% --all-cores
         scons %sconsOutTargets% %sconsArgs% --all-cores
+    - name: Prepare for tests
+      run: powershell.exe appveyor/scripts/tests\beforeTests.ps1
