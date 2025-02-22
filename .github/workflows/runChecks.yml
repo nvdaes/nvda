@@ -49,4 +49,4 @@ jobs:
       run: |
         cd output
         rename *.exe nvda.exe
-      run: powershell.exe .github/workflows/installNVDA.ps1
+        powershell.exe .github/workflows/installNVDA.ps1
