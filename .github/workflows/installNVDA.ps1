@@ -1,5 +1,5 @@
 $errorCode=0
-$nvdaLauncherFile="output\nvda"
+$nvdaLauncherFile="nvda"
 if(!$env:release) {
 	$nvdaLauncherFile+="_snapshot"
 }
@@ -7,6 +7,7 @@ $nvdaLauncherFile+="_${env:version}.exe"
 echo NVDALauncherFile: $NVDALauncherFile
 $outputDir=$(resolve-path .\testOutput)
 $installerLogFilePath="$outputDir\nvda_install.log"
+cd output
 $installerProcess=start-process -FilePath "$nvdaLauncherFile" -ArgumentList "--install-silent --debug-logging --log-file $installerLogFilePath" -passthru
 try {
 	$installerProcess | wait-process -Timeout 180 -ErrorAction Stop
