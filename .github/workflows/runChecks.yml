@@ -18,8 +18,7 @@ on:
     - release-**
 
   workflow_dispatch:
-env:
-  release: $GITHUB_REF_NAME.startsWith("release-")
+
 jobs:
   build:
     runs-on: windows-latest
@@ -35,23 +34,11 @@ jobs:
       with:
         python-version: '3.11'
         architecture: x86
-    - name: Prepare for system tests
-      run: powershell.exe appveyor/scripts/tests/beforeTests.ps1
     - name: Set version variables
       run: powershell.exe appveyor/scripts/setBuildVersionVars.ps1
     - name: Set scons args
       run: powershell.exe appveyor/scripts/setSconsArgs.ps1
     - name: Prepare source code
-      run: scons source %sconsArgs% --all-cores
-    - name: Scons launcher
-      run: scons launcher %sconsArgs% --all-cores
-    - name: Run lint
-      run: runlint.bat
-    - name: Check comments for translators
-      run: scons checkPot --all-cores
-    - name: Run unit tests
-      run: rununittests.bat
-    - name: Run license check
-      run: runlicensecheck.bat
-    - name: Install NVDA
-      run: powershell.exe appveyor/scripts/installNVDA.ps1
+      run: |
+        scons source %sconsArgs% --all-cores
+        scons %sconsOutTargets% %sconsArgs% --all-cores
