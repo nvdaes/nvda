@@ -46,4 +46,4 @@ jobs:
       run: powershell.exe appveyor/scripts/tests\beforeTests.ps1
     - name: Install NVDA
       run: |
-        powershell.exe ../appveyor/scripts/installNVDA.ps1
+        powershell.exe installNVDA.ps1
