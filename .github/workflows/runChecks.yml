@@ -49,5 +49,6 @@ jobs:
     - name: Install NVDA
       run: |
         cd output
-        %nvdaLauncherFile% --install-silent --debug-logging --log-file ./testOutput/nvda_install.log"
+        rename *.exe nvda.exe
+        nvda.exe --install-silent --debug-logging --log-file ./testOutput/nvda_install.log"
         
