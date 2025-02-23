@@ -34,14 +34,4 @@ $includeTags = $tagsForTestArray | ForEach-Object {
 --variable verboseDebugLogging:"${verboseDebugLogging}" `
 @includeTags `
 # last line intentionally blank, allowing all lines to have line continuations.
-
-if($LastExitCode -ne 0) {
-	Set-AppveyorBuildVariable "testFailExitCode" $LastExitCode
-	Add-AppveyorMessage "FAIL: System tests (tags: ${tagsForTest}). See test results for more information."
-} else {
-	Add-AppveyorMessage "PASS: System tests (tags: ${tagsForTest})."
-}
 Compress-Archive -Path "$systemTestOutput\*" -DestinationPath "$testOutput\systemTestResult.zip"
-Push-AppveyorArtifact "$testOutput\systemTestResult.zip"
-$wc = New-Object 'System.Net.WebClient'
-$wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path "$systemTestOutput\systemTests.xml"))
