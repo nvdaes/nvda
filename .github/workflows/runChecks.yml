@@ -45,7 +45,9 @@ jobs:
     - name: Prepare for tests
       run: powershell.exe appveyor/scripts/tests/beforeTests.ps1
     - name: Install NVDA
+      env:
+        snapshot: !$release && 'snapshot' || ''
+        nvdaLaunchFile: format('nvda_{0}_{1}.exe', $snapshot, $version)
       run: |
-        powershell.exe appveyor/scripts/installNVDA.ps1
         cd output
         %nvdaLauncherFile% --install-silent --debug-logging --log-file ./testOutput/nvda_install.log
