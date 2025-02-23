@@ -39,9 +39,9 @@ jobs:
     - name: Set scons args
       run: powershell.exe appveyor/scripts/setSconsArgs.ps1
     - name: Prepare source code
-      run: |
-        scons source %sconsArgs% --all-cores
-        scons %sconsOutTargets% %sconsArgs% --all-cores
+      run: scons source %sconsArgs% --all-cores
+    - name: Run launcher
+      run: scons %sconsOutTargets% %sconsArgs% --all-cores
     - name: Prepare for tests
       run: powershell.exe appveyor/scripts/tests/beforeTests.ps1
     - name: Set launcher file
