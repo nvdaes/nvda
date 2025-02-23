@@ -50,4 +50,5 @@ jobs:
         nvdaLaunchFile: format('nvda_{0}_{1}.exe', $snapshot, $version)
       run: |
         cd output
-        echo %nvdaLauncherFile%
+        echo %nvdaLaunchFile%
+        %nvdaLaunchFile% --install-silent --debug-logging --log-file ./testOutput/nvda_install.log
