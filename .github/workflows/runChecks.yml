@@ -46,7 +46,7 @@ jobs:
       run: powershell.exe appveyor/scripts/tests/beforeTests.ps1
     - name: Install NVDA
       env:
-        snapshot: !$release && 'snapshot' || ''
+        snapshot: $release == ${true} && '' || 'snapshot'
         nvdaLaunchFile: format('nvda_{0}_{1}.exe', $snapshot, $version)
       run: |
         cd output
