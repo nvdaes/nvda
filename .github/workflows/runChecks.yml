@@ -18,7 +18,9 @@ on:
     - release-**
 
   workflow_dispatch:
-
+env:
+  if: $GITHUB_EVENT_NAME == 'pull_request'
+  pullRequestNumber: ${{ github.event.number }}
 jobs:
   build:
     runs-on: windows-latest
@@ -46,5 +48,5 @@ jobs:
       run: powershell.exe appveyor/scripts/tests/beforeTests.ps1
     - name: Install NVDA
       run: powershell.exe appveyor/scripts/installNVDA.ps1
-    - Run system tests
+    - name: Run system tests
       run: powershell.exe appveyor/scripts/tests/systemTests.ps1
