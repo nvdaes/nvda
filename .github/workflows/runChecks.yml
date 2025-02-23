@@ -41,7 +41,7 @@ jobs:
     - name: Prepare source code
       run: scons source %sconsArgs% --all-cores
     - name: Run launcher
-      run: scons launcher %version% --all-cores
+      run: scons launcher version=%version% --all-cores
     - name: Prepare for tests
       run: powershell.exe appveyor/scripts/tests/beforeTests.ps1
     - name: Set launcher file
