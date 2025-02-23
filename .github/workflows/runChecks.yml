@@ -43,8 +43,8 @@ jobs:
         scons source %sconsArgs% --all-cores
         scons %sconsOutTargets% %sconsArgs% --all-cores
     - name: Prepare for tests
-      run: powershell.exe appveyor/scripts/tests\beforeTests.ps1
+      run: powershell.exe appveyor/scripts/tests/beforeTests.ps1
     - name: Install NVDA
       run: |
-        powershell.exe installNVDA.ps1
+        powershell.exe appveyor/scripts/installNVDA.ps1
         output/%nvdaLauncherFile% --install-silent --debug-logging --log-file testOutput/nvda_install.log
