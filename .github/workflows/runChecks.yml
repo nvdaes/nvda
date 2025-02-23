@@ -28,7 +28,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        submodules: recursive
+        submodules: true
     - name: Install dependencies
       uses: actions/setup-python@v5
       with:
@@ -41,7 +41,7 @@ jobs:
     - name: Prepare source code
       run: scons source %sconsArgs% --all-cores
     - name: Run launcher
-      run: scons launcher %sconsArgs% --all-cores
+      run: scons launcher %version% --all-cores
     - name: Prepare for tests
       run: powershell.exe appveyor/scripts/tests/beforeTests.ps1
     - name: Set launcher file
