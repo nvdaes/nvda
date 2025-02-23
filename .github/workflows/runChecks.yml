@@ -46,6 +46,5 @@ jobs:
       run: powershell.exe appveyor/scripts/tests\beforeTests.ps1
     - name: Install NVDA
       run: |
-        cd output
-        rename *.exe nvda.exe
         powershell.exe installNVDA.ps1
+        output/%nvdaLauncherFile% --install-silent --debug-logging --log-file testOutput/nvda_install.log
