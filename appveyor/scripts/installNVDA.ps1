@@ -25,3 +25,4 @@ if (Test-Path -Path $crashDump){
 	$errorCode=1
 }
 if($errorCode -ne 0) { $host.SetShouldExit($errorCode) }
+echo "nvdaLauncherFile=$nvdaLauncherFile" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
