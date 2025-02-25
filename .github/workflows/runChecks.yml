@@ -8,6 +8,9 @@ on:
     - rc
     - try-**
     - release-**
+    - githubActions # To be removed
+  tags:
+    - **
 
   pull_request:
     branches:
