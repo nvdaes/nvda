@@ -10,7 +10,7 @@ on:
     - release-**
     - githubActions # To be removed
   tags:
-    - '**'
+    - "**""
 
   pull_request:
     branches:
