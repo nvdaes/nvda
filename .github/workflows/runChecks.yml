@@ -37,16 +37,16 @@ jobs:
         python-version: '3.11'
         architecture: x86
     - name: Set version variables
-      run: powershell.exe appveyor/scripts/setBuildVersionVars.ps1
+      run: powershell.exe ci/scripts/setBuildVersionVars.ps1
     - name: Set scons args
-      run: powershell.exe appveyor/scripts/setSconsArgs.ps1
+      run: powershell.exe ci/scripts/setSconsArgs.ps1
     - name: Prepare source code
       run: scons source %sconsArgs% --all-cores
     - name: Run launcher
       run: scons launcher version=%version% --all-cores
     - name: Prepare for tests
-      run: powershell.exe appveyor/scripts/tests/beforeTests.ps1
+      run: powershell.exe ci/scripts/tests/beforeTests.ps1
     - name: Install NVDA
-      run: powershell.exe appveyor/scripts/installNVDA.ps1
+      run: powershell.exe ci/scripts/installNVDA.ps1
     - name: Run system tests
-      run: powershell.exe appveyor/scripts/tests/systemTests.ps1
+      run: powershell.exe ci/scripts/tests/systemTests.ps1
