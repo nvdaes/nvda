@@ -35,3 +35,8 @@ $includeTags = $tagsForTestArray | ForEach-Object {
 @includeTags `
 # last line intentionally blank, allowing all lines to have line continuations.
 Compress-Archive -Path "$systemTestOutput\*" -DestinationPath "$testOutput\systemTestResult.zip"
+if($LastExitCode -ne 0) {
+	"FAIL: System tests (tags: ${tagsForTest}). See test results for more information." >> $env:GITHUB_STEP_SUMMARY
+} else {
+	"PASS: System tests (tags: ${tagsForTest})." >> $env:GITHUB_STEP_SUMMARY
+}
