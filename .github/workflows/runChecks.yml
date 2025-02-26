@@ -53,6 +53,8 @@ jobs:
       run: powershell.exe ci/scripts/tests/lintCheck.ps1
     - name: Check comments for translators
       run: powershell.exe ci/scripts/tests/translationCheck.ps1
+    - name: License check
+      run: powershell.exe ci/scripts/tests/licenseCheck.ps1
     - name: Run unit tests
       run: powershell.exe ci/scripts/tests/unitTests.ps1
     - name: Run system tests
