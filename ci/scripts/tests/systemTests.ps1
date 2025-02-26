@@ -14,7 +14,7 @@ $tagsForTest = "installer NVDA"  # include the tests tagged with installer, or N
 if ($env:INCLUDE_SYSTEM_TEST_TAGS) {
 	if ($env:INCLUDE_SYSTEM_TEST_TAGS -eq $SKIP_SYS_TESTS) {
 		# Indicate the tests were skipped, and exit early.
-		Add-AppveyorMessage "Skipped: System tests."
+		"Skipped: System tests." >> $env:GITHUB_STEP_SUMMARY
 		return
 	}
 	$tagsForTest = $env:INCLUDE_SYSTEM_TEST_TAGS
@@ -36,7 +36,8 @@ $includeTags = $tagsForTestArray | ForEach-Object {
 # last line intentionally blank, allowing all lines to have line continuations.
 Compress-Archive -Path "$systemTestOutput\*" -DestinationPath "$testOutput\systemTestResult.zip"
 if($LastExitCode -ne 0) {
-	"FAIL: System tests (tags: ${tagsForTest}). See test results for more information." >> $env:GITHUB_STEP_SUMMARY
+	$MESSAGE = "FAIL: System tests (tags: ${tagsForTest}). See test results for more information."
 } else {
-	"PASS: System tests (tags: ${tagsForTest})." >> $env:GITHUB_STEP_SUMMARY
+	$MESSAGE = "PASS: System tests (tags: ${tagsForTest})."
 }
+$MESSAGE >> $env:GITHUB_STEP_SUMMARY
