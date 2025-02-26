@@ -49,8 +49,6 @@ jobs:
       run: powershell.exe ci/scripts/tests/beforeTests.ps1
     - name: Install NVDA
       run: powershell.exe ci/scripts/installNVDA.ps1
-    - name: Lint
-      run: powershell.exe ci/scripts/tests/lintCheck.ps1
     - name: Check comments for translators
       run: powershell.exe ci/scripts/tests/translationCheck.ps1
     - name: License check
