@@ -59,3 +59,11 @@ jobs:
       run: powershell.exe ci/scripts/tests/unitTests.ps1
     - name: Run system tests
       run: powershell.exe ci/scripts/tests/systemTests.ps1
+    - name: Check tests failure
+      run: powershell.exe ci/scripts/tests/checkTestFailure.ps1
+    - name: Get summary
+      id: getSummary
+      if: failure()
+      uses: austenstone/job-summary@v2.0
+      with:
+        create-pdf: false

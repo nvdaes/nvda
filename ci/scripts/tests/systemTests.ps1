@@ -37,6 +37,7 @@ $includeTags = $tagsForTestArray | ForEach-Object {
 Compress-Archive -Path "$systemTestOutput\*" -DestinationPath "$testOutput\systemTestResult.zip"
 if($LastExitCode -ne 0) {
 	$MESSAGE = "FAIL: System tests (tags: ${tagsForTest}). See test results for more information."
+	echo "testFailExitCode=$LastExitCode" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
 } else {
 	$MESSAGE = "PASS: System tests (tags: ${tagsForTest})."
 }
