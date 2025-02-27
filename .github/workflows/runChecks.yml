@@ -80,3 +80,9 @@ jobs:
       uses: austenstone/job-summary@v2.0
       with:
         create-pdf: false
+    - name: Comment on failure
+      if: ${{ failure() && github.event.name == 'pull_request' }}
+      uses: peter-evans/create-or-update-comment@v4
+      with:
+        issue-number: $pullRequestNumber
+        body: ${{ steps.getSummary.outputs.job-summary }}
