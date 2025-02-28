@@ -80,7 +80,7 @@ jobs:
       run: powershell.exe ci/scripts/tests/checkTestFailure.ps1
     - name: Get summary
       id: getSummary
-      if: ${{ failure() && github.event.name == 'pull_request' }}
+      if: ${{ failure() && github.event_name == 'pull_request' }}
       uses: austenstone/job-summary@v2.0
       with:
         create-pdf: false
