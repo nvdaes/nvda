@@ -70,6 +70,7 @@ jobs:
         compression-level: 0
         overwrite: true
     - name: Upload test results
+      id: testResults
       uses: actions/upload-artifact@v4
       with:
         name: Test Results
@@ -88,4 +89,6 @@ jobs:
       uses: peter-evans/create-or-update-comment@v4
       with:
         issue-number: $pullRequestNumber
-        body: ${{ steps.getSummary.outputs.job-summary }}
+        body: |
+          ${{ steps.getSummary.outputs.job-summary }}
+          [Download test results](${{ steps.testResults.artifact-url }})
