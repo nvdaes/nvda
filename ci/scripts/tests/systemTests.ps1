@@ -14,7 +14,7 @@ $tagsForTest = "installer NVDA"  # include the tests tagged with installer, or N
 if ($env:INCLUDE_SYSTEM_TEST_TAGS) {
 	if ($env:INCLUDE_SYSTEM_TEST_TAGS -eq $SKIP_SYS_TESTS) {
 		# Indicate the tests were skipped, and exit early.
-		Add-AppveyorMessage "Skipped: System tests."
+		"Skipped: System tests." >> $env:GITHUB_STEP_SUMMARY
 		return
 	}
 	$tagsForTest = $env:INCLUDE_SYSTEM_TEST_TAGS
@@ -34,14 +34,10 @@ $includeTags = $tagsForTestArray | ForEach-Object {
 --variable verboseDebugLogging:"${verboseDebugLogging}" `
 @includeTags `
 # last line intentionally blank, allowing all lines to have line continuations.
-
 if($LastExitCode -ne 0) {
-	Set-AppveyorBuildVariable "testFailExitCode" $LastExitCode
-	Add-AppveyorMessage "FAIL: System tests (tags: ${tagsForTest}). See test results for more information."
+	$MESSAGE = "FAIL: System tests (tags: ${tagsForTest}). See test results for more information."
+	echo "testFailExitCode=$LastExitCode" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
 } else {
-	Add-AppveyorMessage "PASS: System tests (tags: ${tagsForTest})."
+	$MESSAGE = "PASS: System tests (tags: ${tagsForTest})."
 }
-Compress-Archive -Path "$systemTestOutput\*" -DestinationPath "$testOutput\systemTestResult.zip"
-Push-AppveyorArtifact "$testOutput\systemTestResult.zip"
-$wc = New-Object 'System.Net.WebClient'
-$wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path "$systemTestOutput\systemTests.xml"))
+$MESSAGE >> $env:GITHUB_STEP_SUMMARY
