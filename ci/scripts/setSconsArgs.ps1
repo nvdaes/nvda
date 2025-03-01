@@ -14,10 +14,10 @@ $sconsArgs += " publisher=`"$env:scons_publisher`""
 if (!$env:APPVEYOR_PULL_REQUEST_NUMBER -and $env:feature_signing) {
 	$sconsArgs += " apiSigningToken=$env:apiSigningToken"
 }
-$sconsArgs += " version_build=$env:APPVEYOR_BUILD_NUMBER"
+$sconsArgs += " version_build=$env:GITHUB_RUN_ID"
 # We use cmd to run scons because PowerShell throws exceptions if warnings get dumped to stderr.
 # It's possible to work around this, but the workarounds have annoying side effects.
-Set-AppveyorBuildVariable "sconsOutTargets" $sconsOutTargets
-Set-AppveyorBuildVariable "sconsArgs" $sconsArgs
+echo "sconsOutTargets=$sconsOutTargets" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
+echo "sconsArgs=$sconsArgs" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
 Write-Host "scons args: $sconsArgs"
 Write-Host "scons output targets: $sconsOutTargets"

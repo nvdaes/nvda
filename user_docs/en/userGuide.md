@@ -1430,6 +1430,7 @@ However, you may wish to use object navigation directly to, for example, recogni
 Once recognition is complete, the result will be presented in a document similar to browse mode, allowing you to read the information with cursor keys, etc.
 Pressing enter or space will activate (normally click) the text at the cursor if possible.
 Pressing escape dismisses the recognition result.
+Pressing `NVDA+f5` refreshes the recognition result.
 
 ### Windows OCR {#Win10Ocr}
 
@@ -1846,17 +1847,12 @@ If you wish to change the update mirror, press the "Change..." button to open th
 Please note that when using an update mirror, the operator of the mirror has access to all [information sent with update checks](#GeneralSettingsCheckForUpdates).
 Contact the operator of the update mirror for details of their data handling policies to ensure you are comfortable with the way your information will be handled before setting an update mirror.
 
-##### Prevent display from turning off during say all or reading with braille {#PreventDisplayTurnOff}
+##### Prevent display from turning off during say all or reading with braille {#PreventDisplayTurningOff}
 
-This option ensures that the display stays on when reading with say all or with braille (e.g. when pressing scroll buttons).
+This check box, when enabled, ensures that the display stays on when reading with say all or with braille (e.g. when pressing scroll buttons).
 This avoids the situation where the screen unexpectedly locks during a say all.
 This option is enabled by default.
 Consider disabling this option if you are suffering from a shorter battery life.
-
-| . {.hideHeaderRow} |.|
-|---|---|
-|Options |Default (Enabled), Disabled, Enabled|
-|Default |Enabled|
 
 #### Speech Settings {#SpeechSettings}
 
@@ -3942,7 +3938,6 @@ There are also many variants which can be chosen to alter the sound of the voice
 SAPI 4 is an older Microsoft standard for software speech synthesizers.
 NVDA still supports this for users who already have SAPI 4 synthesizers installed.
 However, Microsoft no longer support this and needed components are no longer available from Microsoft.
-Support for SAPI4 will be removed in NVDA 2026.1.
 
 When using this synthesizer with NVDA, the available voices (accessed from the [Speech category](#SpeechSettings) of the [NVDA Settings](#NVDASettings) dialog or by the [Synth Settings Ring](#SynthSettingsRing)) will contain all the voices from all the installed SAPI 4 engines found on your system.
 

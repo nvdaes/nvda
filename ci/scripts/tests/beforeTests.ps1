@@ -21,4 +21,3 @@ $chromeStartArgsString = $(py tests/system/libraries/_chromeArgs.py)
 $chromeStartArgsArray = $chromeStartArgsString -split " "
 
 cmd /c start /min $chromeStartArgsArray
-Set-AppveyorBuildVariable "testFailExitCode" 0
