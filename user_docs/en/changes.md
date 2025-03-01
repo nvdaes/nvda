@@ -4,9 +4,6 @@
 
 ### Important notes
 
-* The support for Microsoft Speech API version 4 synthesizers is planned for removal in NVDA 2026.1.
-Any remaining users of SAPI4 speech synthesizers are encouraged to choose a more modern speech synthesizer. (#17599)
-
 ### New Features
 
 * Add-on Store:
@@ -45,6 +42,8 @@ As a consequence, announcement of first line indent is now supported for LibreOf
 This option is enabled by default, but can possibly result in shorter battery life.
 If you suspect this option is negatively impacting your battery life, you're advised to disable it. (#17649, @LeonarddeR)
 * Rate boost is now supported when using Microsoft Speech API version 5 (SAPI5) and Microsoft Speech Platform voices, which supports up to 6X speed. (#17606, @gexgd0419)
+* In a recognition result, `NVDA+f5` manually refreshes the recognized content. (#17715, @CyrilleB79)
+* Added an unassigned gesture to toggle periodical refresh of the Windows OCR result.
 
 ### Changes
 
@@ -78,6 +77,7 @@ Prefix matching on command line flags, e.g. using `--di` for `--disable-addons` 
 * The keyboard settings for "Speak typed characters" and "Speak typed words" now have three options: Off, Only in edit controls, and Always. (#17505, @Cary-rowen)
   * By default, "Speak typed characters" is now set to "Only in edit controls".
 * The silence at the beginning of speech will now be trimmed when using OneCore voices, SAPI5 voices, and some third-party voice add-ons to improve their responsiveness. (#17614, @gexgd0419)
+* Microsoft Speech API version 4 voices now use WASAPI for audio output, so that they can work with features such as audio ducking, leading silence trimming, and keeping audio device awake. (#17718, @gexgd0419)
 
 ### Security Fixes
 
@@ -126,6 +126,8 @@ In any document, if the cursor is on the last line, it will be moved to the end 
 * When anchor links point to the same object as the virtual caret is placed, NVDA no longer fails to scroll to the link destination. (#17669, @nvdaes)
 * Voice parameters, such as rate and volume, will no longer be reset to default when using the synth settings ring to change between voices in the SAPI5 and SAPI4 synthesizer. (#17693, #2320, @gexgd0419)
 * The NVDA Highlighter Window icon is no longer fixed in the taskbar after restarting Explorer. (#17696, @hwf1324)
+* Fixed an issue where some SAPI4 voices (e.g. IBM TTS Chinese) cannot be loaded. (#17726, @gexgd0419)
+* In Excel, the element list dialog (`NVDA+f7`) no longer fails to list comment or formulas on some non-English systems. (#11366, @CyrilleB79)
 
 ### Changes for Developers
 
@@ -244,7 +246,6 @@ Use `gui.message.MessageDialog` instead. (#17582)
   * `NoConsoleOptionParser`, `stringToBool`, `stringToLang` in `__main__`; use the same symbols in `argsParsing` instead.
   * `__main__.parser`; use `argsParsing.getParser()` instead.
 * `bdDetect.DeviceType` is deprecated in favour of `bdDetect.ProtocolType` and `bdDetect.CommunicationType` to take into account the fact that both HID and Serial communication can take place over USB and Bluetooth. (#17537 , @LeonarddeR)
-* SAPI4, `synthDrivers.sapi4`, is deprecated and planned for removal in 2026.1. (#17599)
 
 ## 2024.4.2
 
