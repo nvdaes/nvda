@@ -90,7 +90,7 @@ jobs:
       if: ${{ failure() && github.event_name == 'pull_request' }}
       uses: peter-evans/create-or-update-comment@v4
       with:
-        issue-number: $pullRequestNumber
+        issue-number: ${{ github.event.number }}
         body: |
           ${{ steps.getSummary.outputs.job-summary }}
           [Download test results](${{ steps.testResults.artifact-url }})
