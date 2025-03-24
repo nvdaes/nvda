@@ -17,7 +17,7 @@ class TestDefaultStateContent(unittest.TestCase):
 	def test_expectedDefaultValsInState(self):
 		state = addonHandler.AddonsState()
 		state.setDefaultStateValues()
-		self.assertEqual(state.manualOverridesAPIVersion.major, 2023)
+		self.assertEqual(state.manualOverridesAPIVersion.major, 2024)
 		self.assertEqual(state.manualOverridesAPIVersion.minor, 1)
 		self.assertEqual(state.manualOverridesAPIVersion.patch, 0)
 		for stateKey in addonStore.models.status.AddonStateCategory:
